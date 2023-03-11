@@ -52,3 +52,6 @@ done
 
 # get the answer
 echo "You guessed it in $COUNT tries. The secret number was $SECRET. Nice job!"
+
+
+# we need a table with username and count
