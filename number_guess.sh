@@ -16,7 +16,8 @@ then
     # update game played
     GAMES_PLAYED=$(($GAMES_PLAYED+1))
     UPDATE_RESULT=$($PSQL "update users set count = $GAMES_PLAYED")
-    echo "Welcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took <best_game> guesses."
+    echo "Welcome back, $(echo $USERNAME | sed 's/^ *| *$//g')! You have played $GAMES_PLAYED games, and your best game took $BEST guesses."
+    echo -e "\n$(echo $USERNAME_RESULT)"
   done
 else
   # if not exist
@@ -42,16 +43,16 @@ do
   # if not integer
   if [[ ! $INPUT =~ ^[0-9]+$ ]]
   then
-    echo "That is not an integer, guess again:"
+    echo -e "\nThat is not an integer, guess again:"
     read INPUT
   # if input < target
   elif [[ $INPUT < $SECRET ]]
   then
-    echo "It's lower than that, guess again:"
+    echo -e "\nIt's lower than that, guess again:"
     read INPUT
   # then input > target
   else
-    echo "It's higher than that, guess again:"
+    echo -e "\nIt's higher than that, guess again:"
     read INPUT
   fi
 
