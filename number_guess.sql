@@ -49,7 +49,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.users (
     username character varying(40) NOT NULL,
-    count integer NOT NULL
+    count integer NOT NULL,
+    best integer DEFAULT 1000
 );
 
 
@@ -59,6 +60,30 @@ ALTER TABLE public.users OWNER TO freecodecamp;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.users VALUES ('user_1678541302509', 2, 31);
+INSERT INTO public.users VALUES ('user_1678541302510', 5, 19);
+INSERT INTO public.users VALUES ('user_1678541174776', 2, 12);
+INSERT INTO public.users VALUES ('user_1678541174777', 5, 34);
+INSERT INTO public.users VALUES ('user_1678541322582', 2, 39);
+INSERT INTO public.users VALUES ('user_1678541322583', 5, 15);
+INSERT INTO public.users VALUES ('user_1678541199184', 2, 61);
+INSERT INTO public.users VALUES ('user_1678541199186', 5, 29);
+INSERT INTO public.users VALUES ('user_1678541207801', 2, 9);
+INSERT INTO public.users VALUES ('user_1678541207802', 5, 8);
+INSERT INTO public.users VALUES ('user_1678541234588', 2, 55);
+INSERT INTO public.users VALUES ('user_1678541234589', 5, 18);
+INSERT INTO public.users VALUES ('user_1678541249015', 2, 41);
+INSERT INTO public.users VALUES ('user_1678541249016', 5, 28);
+INSERT INTO public.users VALUES ('user_1678541255560', 2, 38);
+INSERT INTO public.users VALUES ('user_1678541255561', 5, 30);
+
+
+--
+-- Name: users username_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT username_unique UNIQUE (username);
 
 
 --
