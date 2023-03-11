@@ -1,20 +1,28 @@
 #!/bin/bash
-PSQL="psql --username=freecodecamp --dbname=guess-t --no-align -c"
+PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -c"
 
 # ask username
 echo "Enter your username:"
 read USERNAME
 
 # check username
-USERNAME_RESULT=$($PSQL "")
+USERNAME_RESULT=$($PSQL "select * from users where username = '$USERNAME' ")
 
-if [[ -z USERNAME_RESULT ]]
+if [[ ! -z $USERNAME_RESULT ]]
 then
   # if username exist
-  echo "Welcome back, <username>! You have played <games_played> games, and your best game took <best_game> guesses."
+  echo "$USERNAME_RESULT" | while read USERNAME BAR GAMES_PLAYED BAR BEST
+  do
+    # update game played
+    GAMES_PLAYED=$(($GAMES_PLAYED+1))
+    UPDATE_RESULT=$($PSQL "update users set count = $GAMES_PLAYED")
+    echo "Welcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took <best_game> guesses."
+  done
 else
   # if not exist
-  echo "Welcome, <username>! It looks like this is your first time here."
+  # insert new user
+  INSERT_RESULT=$($PSQL "insert into users(username,count) values('$USERNAME',1)")
+  echo "Welcome, $USERNAME! It looks like this is your first time here."
 fi
 
 # start game
@@ -23,6 +31,7 @@ read INPUT
 
 # get random nubmer
 SECRET=$((1 + RANDOM % 100))
+echo "$SECRET"
 
 # set count = 1
 COUNT=1
@@ -31,7 +40,7 @@ COUNT=1
 while [[ $INPUT != $SECRET ]];
 do
   # if not integer
-  if [[ $INPUT =~ ^[0-9]+$ ]]
+  if [[ ! $INPUT =~ ^[0-9]+$ ]]
   then
     echo "That is not an integer, guess again:"
     read INPUT
